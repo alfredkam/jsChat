@@ -14,9 +14,11 @@ you can define the jquery element any size you want, but i will suggest no small
 ##Usage without client
 if you are going to design your on client<br>
 your client can poll on<br>
-
-messageCounter sets where you left off, setting it to 0 will indicate you just initalize your client<br>
-GET: /client/:roomName/:messageCounter<br>
+<pre>
+messageCounter sets where you left off, setting it to 0 will indicate you just initalize your client
+GET: /client/:roomName/:messageCounter
+</pre>
+<br>
 <pre>
 //returns the 10 newest message if its your first time syncing with server
 return {
@@ -30,7 +32,9 @@ return {
 </pre>
 EXAMPLE : https://github.com/alfredkam/jsChat/blob/master/client.js#L24
 
-POST: /msg/:roomName/:message <be>
+<pre>
+POST: /msg/:roomName/:message
+</pre><br>
 Also need to pass 
 <pre>
 {
