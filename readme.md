@@ -8,8 +8,9 @@ The server supports multiple chat rooms and automaticly creates a new room if it
 ##Usage with client
 include jquery 1.8.3<br>
 include client.js<br>
-and initiate with jsChat.init($("element"), 'room number', 'username');<br>
-you can define the jquery element any size you want, but i will suggest no smaller then h:300px w:200px<br>
+and initiate with 
+<pre>jsChat.init($("element"), 'room number', 'username');</pre>
+you can define the dom element any size you want, but i will suggest no smaller then h:300px w:200px<br>
 
 ##Usage without client
 if you are going to design your on client<br>
