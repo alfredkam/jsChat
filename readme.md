@@ -18,7 +18,6 @@ your client can poll on<br>
 messageCounter sets where you left off, setting it to 0 will indicate you just initalize your client
 GET: /client/:roomName/:messageCounter
 </pre>
-<br>
 <pre>
 //returns the 10 newest message if its your first time syncing with server
 return {
@@ -31,10 +30,10 @@ return {
     }
 </pre>
 EXAMPLE : https://github.com/alfredkam/jsChat/blob/master/client.js#L24
-
+<br><br>
 <pre>
 POST: /msg/:roomName/:message
-</pre><br>
+</pre>
 Also need to pass 
 <pre>
 {
