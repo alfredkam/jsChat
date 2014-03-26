@@ -5,6 +5,45 @@ So wanted to create a simple chat client. After poking around decided to use nod
 
 The server supports multiple chat rooms and automaticly creates a new room if it does not exist.
 
+##Usage with client
+include jquery 1.8.3<br>
+include client.js<br>
+and initiate with jsChat.init($("element"), 'room number', 'username');<br>
+you can define the jquery element any size you want, but i will suggest no smaller then h:300px w:200px<br>
+
+##Usage without client
+if you are going to design your on client<br>
+your client can poll on<br>
+
+messageCounter sets where you left off, setting it to 0 will indicate you just initalize your client<br>
+GET: /client/:roomName/:messageCounter<br>
+<pre>
+//returns the 10 newest message if its your first time syncing with server
+return {
+        count : int, //returns the latest message counter
+        messages: [{
+            user : username,
+            timestamp : timestamp,  //i use momentjs to create the timestamp
+            counter : 
+        }]
+    }
+</pre>
+
+POST: /msg/:roomName/:message <be>
+Also need to pass 
+<pre>
+{
+    user : username     //if you dont pass it, it will store the name as 'Guest'
+}
+</pre>
+
+
+$.getJSON('/client/' + roomName + '/' + counter, function(response) {
+ counter = response.count;
+ elem.append(self.template(response.messages));
+}
+
+
 ## To run
 npm install<br>
 cd server <br>

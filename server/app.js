@@ -52,7 +52,7 @@ app.post("/msg/:room/:msg", function (req, res) {
 
     var msg = JSON.stringify({
         msg : req.params.msg,
-        user : req.body.user,
+        user : req.body.user || "Guest",
         timestamp : moment.utc().valueOf()
     });
     var room = req.params.room;
@@ -154,8 +154,8 @@ app.post("/msg/:room/:msg", function (req, res) {
     });
 });
 
-//message broadcast / client listenr
-app.get("/poll/:room/:pid", function (req, res) {
+//message broadcast / client listener
+app.get("/client/:room/:pid", function (req, res) {
     var pid = req.params.pid;
     var room = req.params.room;
     var id = 0;

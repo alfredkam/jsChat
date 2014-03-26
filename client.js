@@ -21,7 +21,7 @@
             var txt = $(elem).children("._chatWrapper").children('._chatBox');
             var poll = function() {
                 // var messages = [];
-                $.getJSON('/poll/' + room + '/' + counter, function(response) {
+                $.getJSON('/client/' + room + '/' + counter, function(response) {
                  counter = response.count;
                  elem.append(self.template(response.messages));
                  if (self.posted) {
