@@ -209,9 +209,9 @@ app.get("/poll/:room/:pid", function (req, res) {
                 var deferred = Q.defer();
                 redis.multi([hmget]).exec(function (err, replies) {
                     var messages = [];
-                    for (var i in replies) {
+                    for (var i in replies[0]) {
                         messages.push({
-                            msg : replies[i].toString()
+                            msg : replies[0][i]
                         });
                     }
                     deferred.resolve(messages);
