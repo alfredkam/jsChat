@@ -1,4 +1,4 @@
-<h4>This is just a PROTOTYPE</h4>
+<h4>This is just a something i wrote in couple of hours, cheers - ak</h4>
 
 ##A js chat client / nodejs server
 So wanted to create a simple chat client. After poking around decided to use nodejs, long polling and try out redis as a data store.
@@ -28,6 +28,7 @@ return {
         }]
     }
 </pre>
+EXAMPLE : https://github.com/alfredkam/jsChat/blob/master/client.js#L24
 
 POST: /msg/:roomName/:message <be>
 Also need to pass 
@@ -36,13 +37,7 @@ Also need to pass
     user : username     //if you dont pass it, it will store the name as 'Guest'
 }
 </pre>
-
-
-$.getJSON('/client/' + roomName + '/' + counter, function(response) {
- counter = response.count;
- elem.append(self.template(response.messages));
-}
-
+EXAMPLE : https://github.com/alfredkam/jsChat/blob/master/client.js#L45
 
 ## To run
 npm install<br>
