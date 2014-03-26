@@ -1,14 +1,29 @@
 (function (){
     var jsChat = window.jsChat = {
         //room and dom element
+        template : function (messages) {
+            console.log(messages);
+            var html = "";
+            if (messages.length > 0) {
+                for (var i in messages) {
+                    html += "<div>"+ messages[i].msg + "</div>";
+                }
+            }
+
+            return html;
+        },
         listener : function (elem, room) {
             var counter = 0;
+            var self = this;
             var poll = function() {
-              $.getJSON('/poll/' + room + '/' + counter, function(response) {
+                // var messages = [];
+                $.getJSON('/poll/' + room + '/' + counter, function(response) {
                  counter = response.count;
-                 elem.text(elem.text() + response.append);
+                 // messages = response.messages;
+                 // elem.text(elem.text() + response.append);
+                 elem.append(self.template(response.messages));
                  poll();
-              });
+                });
             };
             poll();
         },
