@@ -1,39 +1,125 @@
 <style rel='stylesheet'>
+    ._chatWrapper * {
+       /* -webkit-transition: all 0.1s linear;
+        -moz-transition:all 0.1s linear;
+        -o-transition:all 0.1s linear;
+        -ms-transition:all 0.1s linear;
+        transition : all 0.1s linear;*/
+        width:inherit;
+    }
     ._chatWrapper {
         position: relative;
-        width:100%;
+        width:inherit;
         height:100%;
         border:1px solid #ccc;
-        border-radius:5px;
+        border-radius:3px;
+        /*padding-bottom:30px;*/
+        font-family: arial,sans-serif;
+        color:#999;
         padding-bottom:30px;
     }
     ._row {
         display:table;
-        width:100%;
+        width:inherit;
     }
     ._messageBox {
-        width:100%;
+        width:inherit;
         height:80%;
         display:block;
-        overflow-y:scroll;
+        overflow-y:auto;
+        overflow-x:hidden;
+        padding-left:3px;
+        font-size: 15px;
+        /*-webkit-scrollbar :;*/
+        right:2px;
+        position: relative;
+    }
+    ._messageBox::-webkit-scrollbar {
+        width: 6px;
+    }
+    ._messageBox::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background:-webkit-linear-gradient(top,#4d90fe,#357ae8);
+    }
+    ._messageBox ._row {
+        border-top: 1px solid #ccc;
+    }
+    ._msg {
+        word-break:break-all;
+        display:block;
+        width:90%;
+        color:#888;
+    }
+    ._messageBox ._row:first-child {
+        border-top:0;
     }
     ._chatBox {
-        width:100%;
+        width:inherit;
         height:20%;
     }
+    ._center {
+        display:inline-block;
+        position: relative;
+        text-align: center;
+        /*margin-top:5px;*/
+    }
     ._chatBtn {
-        float:right;
+        background:#4285f4;
+        background:-webkit-linear-gradient(top,#4d90fe,#357ae8);
+        background:linear-gradient(top,#4387fd,#4683ea);
+        border:1px solid #357ae8;
+        color:white;
+        text-decoration: none;
+        /*padding:5px 10px;*/
+        padding:5px 0;
+        right:1px;
         position:relative;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        display:block;
+    }
+    ._input input, ._chatBox {
+        width:inherit;
+        color:#888;
+        border:1px solid #ccc;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+        -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+        -o-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        -web-kit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition : border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        /*border-radius:3px;*/
+        overflow-y:auto;
+        overflow-x:hidden;
+        border-left:0;
+        border-right:0;
+        border-bottom:0;
+        font-size: 15px;
+        padding:3px;
+    }
+    ._name {
+        font-size:13px;
+        color:#4387fd;
+    }
+    ._timestamp {
+        width: auto;
+        position: relative;
+        right: 10px;
+        float: right;
     }
 </style>
 <div class='_chatWrapper'>
     <div class='_messageBox _row'>
 
     </div>
-    <textarea class='_chatBox _row'>
-        
+<!--     <div class='_row _input'>
+        <input class='_user' value='Anoymous'/>
+    </div> -->
+    <textarea class='_chatBox _row' placeholder='Message'>
+ 
     </textarea>
-    <div class='_row'>
+    <div class='_row _center'>
         <a class='_chatBtn' href='javascript:void(0)'>Send</a>
     </div>
 </div>

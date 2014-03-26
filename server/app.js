@@ -9,15 +9,14 @@ var http = require("http"),
     //NOTE:: redis functions are asyn, so need to use promise to wrap them around
     redis = _redis.createClient(),
     _ = require('lodash'),
-    Q = require('q');
+    Q = require('q'),
+    moment = require('moment');
 
 redis.on("error", function (err) {
     console.log("Redis Error" + err);
 });
 
 var app = express();
-//message are not saved - could use redis here
-// var messages = [];
 var clients = [];
 
 //common configurations
@@ -49,11 +48,17 @@ app.get("/clientTemplate", function (req, res) {
 });
 
 //Client posting a message
-app.get("/msg/:room/:msg", function (req, res) {
-    var msg = req.params.msg;
+app.post("/msg/:room/:msg", function (req, res) {
+
+    var msg = JSON.stringify({
+        msg : req.params.msg,
+        user : req.body.user,
+        timestamp : moment.utc().valueOf()
+    });
     var room = req.params.room;
     var id = 0;
 
+    //check if room exist
     var room_exist = function () {
         var deferred = Q.defer();
         redis.hexists(room, "id", function (err, response) {
@@ -64,7 +69,7 @@ app.get("/msg/:room/:msg", function (req, res) {
         return deferred.promise;
     };
 
-
+    //get message counter by specific room
     var getMessageCounter = function () {
         var deferred = Q.defer();
         //get current id
@@ -76,6 +81,7 @@ app.get("/msg/:room/:msg", function (req, res) {
         return deferred.promise;
     };
 
+    //writing to redis
     var setHash = function (id) {
         var deferred = Q.defer();
         //set msg by to be incremented id
@@ -89,6 +95,7 @@ app.get("/msg/:room/:msg", function (req, res) {
         return deferred.promise;
     };
 
+    //increment counter
     var incrementCounter = function () {
         var deferred = Q.defer();
         //increment id
@@ -100,6 +107,7 @@ app.get("/msg/:room/:msg", function (req, res) {
         return deferred.promise;
     };
 
+    //create a new hash
     var createRoom = function () {
         var deferred = Q.defer();
         redis.hset(room, "id", 1, function (err) {
@@ -110,12 +118,11 @@ app.get("/msg/:room/:msg", function (req, res) {
         return deferred.promise;
     };
 
-
+    //process data
     room_exist().then(function (exist) {
         //room exist
         if (exist == 1) {
             return getMessageCounter().then(function (counter) {
-                console.log("@counter", counter);
                 return setHash(counter).then(function (){
                     return incrementCounter().then(function (){
                         return counter + 1;
@@ -134,11 +141,13 @@ app.get("/msg/:room/:msg", function (req, res) {
         // messages.push(msg);
         while(clients.length > 0) {
             var client = clients.pop();
+            var d = JSON.parse(msg);
+            d.timestamp = moment(d.timestamp).format("MM/DD h:mma");
             client.json({
                 count : counter, //messages.length,
-                messages : [{
-                    msg : msg
-                }]
+                messages : [
+                    d
+                ]
             });
         }
         res.end();
@@ -157,7 +166,6 @@ app.get("/poll/:room/:pid", function (req, res) {
         redis.hexists(room, "id", function (err, response) {
             if (err)
                 throw err;
-            console.log("@checker", response);
             deferred.resolve(response);
         });
         return deferred.promise;
@@ -169,7 +177,6 @@ app.get("/poll/:room/:pid", function (req, res) {
         redis.hget(room, "id", function (err, response) {
             if (err)
                 throw err;
-            console.log("_@id", response);
             deferred.resolve(parseInt(response));
         });
         return deferred.promise;
@@ -192,7 +199,6 @@ app.get("/poll/:room/:pid", function (req, res) {
 
     //finally call this function to return data
     getPidCounter().then(function (id) {
-        console.log("@id", id);
         if (id > pid) {
             //get first 10;
             var hmget = [];
@@ -210,9 +216,9 @@ app.get("/poll/:room/:pid", function (req, res) {
                 redis.multi([hmget]).exec(function (err, replies) {
                     var messages = [];
                     for (var i in replies[0]) {
-                        messages.push({
-                            msg : replies[0][i]
-                        });
+                        var d = JSON.parse(replies[0][1]);
+                        d.timestamp = moment(d.timestamp).format("MM/DD h:mma");
+                        messages.push(d);
                     }
                     deferred.resolve(messages);
                 });
