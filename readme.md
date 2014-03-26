@@ -21,11 +21,10 @@ GET: /client/:roomName/:messageCounter
 <pre>
 //returns the 10 newest message if its your first time syncing with server
 return {
-        count : int, //returns the latest message counter
+        count : messageCounter, //returns the latest message counts
         messages: [{
             user : username,
             timestamp : timestamp,  //i use momentjs to create the timestamp
-            counter : 
         }]
     }
 </pre>
