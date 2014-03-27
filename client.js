@@ -16,13 +16,12 @@
             return html;
         },
         listener : function (elem, room) {
-            var counter = 0;
             var self = this;
             var txt = $(elem).children("._chatWrapper").children('._chatBox');
             var poll = function() {
                 // var messages = [];
-                $.getJSON('/client/' + room + '/' + counter, function(response) {
-                 counter = response.count;
+                $.getJSON('/client/' + room + '/' + self.counter, function(response) {
+                 self.counter = response.count;
                  elem.append(self.template(response.messages));
                  if (self.posted) {
                     self.posted = false;
@@ -32,7 +31,8 @@
                 }).fail(function (jqxhr, textStatus, error) {
                     console.log("polling stopped");
                     console.log(textStatus + " <> " + error);
-                    self.pollingStopped = true;
+                    // self.pollingStopped = true;
+                    poll();
                 });
             };
             poll();
@@ -76,6 +76,7 @@
         },
         init : function (elem, room, username) {
             this.username = username;
+            this.counter = 0;
             var self = this;
             $.ajax({
                 method : 'GET',
