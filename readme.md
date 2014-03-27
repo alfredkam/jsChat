@@ -5,6 +5,9 @@ So wanted to create a simple chat client. After poking around decided to use nod
 
 The server supports multiple chat rooms and automaticly creates a new room if it does not exist.
 
+
+Link to <a href='http://132.206.3.203/game/odimZu'>Demo</a> (integrated with krakenjs / marionette)
+
 ##Usage with client
 include jquery 1.8.3<br>
 include client.js<br>
