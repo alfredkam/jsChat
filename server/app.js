@@ -216,7 +216,7 @@ app.get("/client/:room/:pid", function (req, res) {
                 redis.multi([hmget]).exec(function (err, replies) {
                     var messages = [];
                     for (var i in replies[0]) {
-                        var d = JSON.parse(replies[0][1]);
+                        var d = JSON.parse(replies[0][i]);
                         d.timestamp = moment(d.timestamp).format("MM/DD h:mma");
                         messages.push(d);
                     }
