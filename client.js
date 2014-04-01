@@ -9,7 +9,7 @@
                     // html += "<div>"+ messages[i].data.user + "<>" + messages[i].data.msg + "</div>";
                     html += '<div class="_row">\
                     <div class="_name">' + messages[i].user + ':<span class="_timestamp">'+messages[i].timestamp+'</span></div>\
-                    <div class="_msg">' + messages[i].msg + '</div>\
+                    <div class="_msg">' + decodeURIComponent(messages[i].msg) + '</div>\
                     </div>';
                 }
             }
@@ -48,7 +48,7 @@
                 data : {
                     'user' : name
                 },
-                url : '/msg/' + room + '/' + msg
+                url : '/msg/' + room + '/' + encodeURIComponent(msg)
             }).fail( function () {
                 console.log("client offline?");
             });
